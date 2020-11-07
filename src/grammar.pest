@@ -1,0 +1,10 @@
+hex_digit = @{ '0'..'9' | 'a'..'f' | 'A'..'F' | ^"z" | ^"x" }
+bin_digit = @{ "0" | "1" | ^"x" | ^"z" }
+hexnum = @{ (hex_digit | "_")+ }
+binnum = @{ (bin_digit | "_")+ }
+addr = ${ "@" ~ hex_digit+ }
+
+readmemh = _{ SOI ~ (addr | hexnum)+ ~ EOI }
+readmemb = _{ SOI ~ (addr | binnum)+ ~ EOI }
+WHITESPACE = _{ " " | "\t" | "\n" | "\r" }
+COMMENT = _{ ("/*" ~ (!"*/" ~ ANY)* ~ "*/") | (";" ~ (!"\n" ~ ANY)*) | ("//" ~ (!"\n" ~ ANY)*) }
